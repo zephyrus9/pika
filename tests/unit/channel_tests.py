@@ -393,6 +393,18 @@ class ChannelTests(unittest.TestCase):
         self.assertRaises(exceptions.ChannelClosed, self.obj.basic_qos, 0,
                           False, True)
 
+    def test_basic_qos_raises_prefetch_size_value_error(self):
+        self.assertRaises(ValueError, self.obj.basic_qos, None,
+                          'foo', 123, False)
+        self.assertRaises(ValueError, self.obj.basic_qos, None,
+                          -1, 123, False)
+
+    def test_basic_qos_raises_prefetch_count_value_error(self):
+        self.assertRaises(ValueError, self.obj.basic_qos, None,
+                          123, 'foo', False)
+        self.assertRaises(ValueError, self.obj.basic_qos, None,
+                          123, -1, False)
+
     @mock.patch('pika.spec.Basic.Qos')
     @mock.patch('pika.channel.Channel._rpc')
     def test_basic_qos_rpc_request(self, rpc, _unused):

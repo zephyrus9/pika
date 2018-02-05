@@ -457,6 +457,8 @@ class Channel(object):
         :param bool all_channels: Should the QoS apply to all channels
 
         """
+        self._validate_zero_or_greater('prefetch_size', prefetch_size)
+        self._validate_zero_or_greater('prefetch_count', prefetch_count)
         self._validate_channel_and_callback(callback)
         return self._rpc(spec.Basic.Qos(prefetch_size, prefetch_count,
                                         all_channels),
@@ -1362,6 +1364,11 @@ class Channel(object):
             raise exceptions.ChannelClosed()
         if callback is not None and not is_callable(callback):
             raise ValueError('callback must be a function or method')
+
+    def _validate_zero_or_greater(self, name, value):
+        if int(value) < 0:
+            errmsg = '{} must be >= 0, but got {}'.format(name, value)
+            raise ValueError(errmsg)
 
 
 class ContentFrameAssembler(object):
