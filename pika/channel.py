@@ -444,16 +444,16 @@ class Channel(object):
                                    falls into other prefetch limits). May be set
                                    to zero, meaning "no specific limit",
                                    although other prefetch limits may still
-                                   apply. The prefetch-size is ignored if the
-                                   no-ack option is set.
+                                   apply. The prefetch-size is ignored by
+                                   consumers who have enabled the no-ack option.
         :param int prefetch_count: Specifies a prefetch window in terms of whole
                                    messages. This field may be used in
                                    combination with the prefetch-size field; a
                                    message will only be sent in advance if both
                                    prefetch windows (and those at the channel
                                    and connection level) allow it. The
-                                   prefetch-count is ignored if the no-ack
-                                   option is set.
+                                   prefetch-count is ignored by consumers who
+                                   have enabled the no-ack option.
         :param bool all_channels: Should the QoS apply to all channels
 
         """
